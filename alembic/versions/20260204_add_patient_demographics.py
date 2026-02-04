@@ -1,6 +1,6 @@
 """Add patient demographic fields.
 
-Revision ID: 20260204_add_patient_demographics
+Revision ID: 20260204_add_patient_demo
 Revises: None
 Create Date: 2026-02-04
 """
@@ -12,7 +12,7 @@ from sqlalchemy.sql import func
 from sqlalchemy.dialects import postgresql
 
 
-revision = "20260204_add_patient_demographics"
+revision = "20260204_add_patient_demo"
 down_revision = None
 branch_labels = None
 depends_on = None
