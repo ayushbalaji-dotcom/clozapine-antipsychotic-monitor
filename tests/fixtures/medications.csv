@@ -1,0 +1,3 @@
+pseudonymous_number,drug_name,start_date,stop_date,dose,route,is_hdat
+PAT-000001,risperidone,2026-01-01,,2mg,PO,false
+PAT-000002,clozapine,2025-12-15,,200mg,PO,false

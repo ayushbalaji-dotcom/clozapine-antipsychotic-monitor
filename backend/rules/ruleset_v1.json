@@ -1,0 +1,310 @@
+{
+  "version": "v1",
+  "effective_from": "2025-01-01",
+  "categories": {
+    "STANDARD": {
+      "excluded_drugs": ["chlorpromazine", "clozapine", "olanzapine"],
+      "baseline": [
+        "Weight/BMI",
+        "Fasting glucose or HbA1c",
+        "Prolactin",
+        "Lipids",
+        "BP",
+        "Pulse",
+        "CVD risk",
+        "Smoking history",
+        "Side effects",
+        "U&Es",
+        "FBC",
+        "LFTs",
+        "Waist circumference",
+        "ECG_if_indicated",
+        "CK"
+      ],
+      "weekly": {
+        "count": 6,
+        "interval_weeks": 1,
+        "tests": ["Weight/BMI"]
+      },
+      "milestones": [
+        {
+          "months": 3,
+          "tests": [
+            "Weight/BMI",
+            "Prolactin",
+            "Lipids",
+            "BP",
+            "Pulse",
+            "Smoking history",
+            "Side effects"
+          ]
+        },
+        {
+          "months": 6,
+          "tests": ["Fasting glucose or HbA1c"]
+        },
+        {
+          "months": 12,
+          "tests": [
+            "Weight/BMI",
+            "Fasting glucose or HbA1c",
+            "Prolactin",
+            "Lipids",
+            "BP",
+            "Pulse",
+            "CVD risk",
+            "Smoking history",
+            "Side effects",
+            "U&Es",
+            "FBC",
+            "LFTs",
+            "Waist circumference",
+            "ECG_if_indicated",
+            "CK"
+          ]
+        }
+      ],
+      "annual": {
+        "tests": [
+          "Weight/BMI",
+          "Fasting glucose or HbA1c",
+          "Prolactin",
+          "Lipids",
+          "BP",
+          "Pulse",
+          "CVD risk",
+          "Smoking history",
+          "Side effects",
+          "U&Es",
+          "FBC",
+          "LFTs",
+          "Waist circumference",
+          "ECG_if_indicated",
+          "CK"
+        ]
+      },
+      "ecg_indications": {
+        "spc_drugs": ["haloperidol", "pimozide", "sertindole"],
+        "risk_flags": ["cv_risk_present", "family_history_cvd", "inpatient_admission"],
+        "require_annual_if_indicated": true
+      }
+    },
+    "SPECIAL_GROUP": {
+      "drugs": ["chlorpromazine", "clozapine", "olanzapine"],
+      "baseline": [
+        "Weight/BMI",
+        "FBC",
+        "Fasting glucose or HbA1c",
+        "Lipids",
+        "Prolactin",
+        "BP",
+        "Pulse",
+        "CVD risk",
+        "Smoking history",
+        "Side effects",
+        "U&Es",
+        "LFTs",
+        "Waist circumference",
+        "ECG_if_indicated",
+        "CK"
+      ],
+      "weekly": {
+        "count": 6,
+        "interval_weeks": 1,
+        "tests": ["Weight/BMI"]
+      },
+      "milestones": [
+        {"months": 1, "tests": ["Fasting glucose or HbA1c"]},
+        {
+          "months": 3,
+          "tests": [
+            "Weight/BMI",
+            "Prolactin",
+            "Lipids",
+            "BP",
+            "Pulse",
+            "Smoking history",
+            "Side effects"
+          ]
+        },
+        {
+          "months": 6,
+          "tests": [
+            "Weight/BMI",
+            "Fasting glucose or HbA1c",
+            "Prolactin",
+            "Lipids",
+            "BP",
+            "Pulse",
+            "Smoking history",
+            "Side effects"
+          ],
+          "exceptions": {
+            "chlorpromazine": {"remove_tests": ["Lipids"]}
+          }
+        },
+        {
+          "months": 9,
+          "tests": [
+            "Weight/BMI",
+            "Fasting glucose or HbA1c",
+            "Prolactin",
+            "Lipids"
+          ],
+          "exceptions": {
+            "chlorpromazine": {"remove_tests": ["Lipids"]}
+          }
+        },
+        {
+          "months": 12,
+          "tests": [
+            "Weight/BMI",
+            "Fasting glucose or HbA1c",
+            "Prolactin",
+            "Lipids",
+            "BP",
+            "Pulse",
+            "CVD risk",
+            "Smoking history",
+            "Side effects",
+            "U&Es",
+            "FBC",
+            "LFTs",
+            "Waist circumference",
+            "ECG_if_indicated",
+            "CK"
+          ]
+        }
+      ],
+      "every_4_6_months": {"tests": ["Fasting glucose or HbA1c"]},
+      "annual": {
+        "tests": [
+          "Weight/BMI",
+          "Fasting glucose or HbA1c",
+          "Prolactin",
+          "Lipids",
+          "BP",
+          "Pulse",
+          "CVD risk",
+          "Smoking history",
+          "Side effects",
+          "U&Es",
+          "FBC",
+          "LFTs",
+          "Waist circumference",
+          "ECG_if_indicated",
+          "CK"
+        ]
+      },
+      "clozapine": {
+        "fbc_schedule": {
+          "weekly_weeks": 18,
+          "biweekly_weeks": 34,
+          "monthly_weeks": 4
+        },
+        "titration_monitoring": true
+      }
+    },
+    "HDAT": {
+      "baseline": [
+        "Weight/BMI",
+        "FBC",
+        "HbA1c",
+        "Lipids",
+        "Prolactin",
+        "BP (supine + standing)",
+        "Pulse (supine + standing)",
+        "Temperature",
+        "CVD risk",
+        "Hydration status",
+        "Side effects",
+        "U&Es",
+        "LFTs",
+        "Waist circumference",
+        "ECG",
+        "Cognitive function"
+      ],
+      "milestones": [
+        {
+          "months": 3,
+          "tests": [
+            "Weight/BMI",
+            "BP (supine + standing)",
+            "Pulse (supine + standing)",
+            "Temperature",
+            "Side effects",
+            "U&Es",
+            "LFTs",
+            "Waist circumference"
+          ]
+        },
+        {
+          "months": 6,
+          "tests": [
+            "Weight/BMI",
+            "BP (supine + standing)",
+            "Pulse (supine + standing)",
+            "Temperature",
+            "Side effects",
+            "U&Es",
+            "LFTs",
+            "Waist circumference",
+            "ECG"
+          ]
+        },
+        {
+          "months": 9,
+          "tests": [
+            "Weight/BMI",
+            "BP (supine + standing)",
+            "Pulse (supine + standing)",
+            "Temperature",
+            "Side effects",
+            "U&Es",
+            "LFTs",
+            "Waist circumference"
+          ]
+        },
+        {
+          "months": 12,
+          "tests": [
+            "Weight/BMI",
+            "FBC",
+            "HbA1c",
+            "Lipids",
+            "Prolactin",
+            "BP (supine + standing)",
+            "Pulse (supine + standing)",
+            "Temperature",
+            "CVD risk",
+            "Hydration status",
+            "Side effects",
+            "U&Es",
+            "LFTs",
+            "Waist circumference",
+            "ECG",
+            "Cognitive function"
+          ]
+        }
+      ],
+      "every_3_months": {
+        "tests": [
+          "Weight/BMI",
+          "HbA1c",
+          "Lipids",
+          "Prolactin",
+          "BP (supine + standing)",
+          "Pulse (supine + standing)",
+          "Temperature",
+          "Side effects"
+        ]
+      },
+      "every_6_months": {"tests": ["ECG"]},
+      "annual": {"tests": ["CVD risk", "Cognitive function"]},
+      "special_rules": {
+        "ecg_on_acute_illness": true,
+        "hydration_vigilance": true
+      }
+    }
+  }
+}
