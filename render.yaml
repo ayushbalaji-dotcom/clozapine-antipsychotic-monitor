@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: clozapine-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: PYTHONPATH=. alembic upgrade head && PYTHONPATH=. uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: clozapine-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FIELD_ENCRYPTION_KEY
+        generateValue: true
+      - key: WEBHOOK_SECRET
+        generateValue: true
+      - key: AUTH_MODE
+        value: dev_stub
+      - key: DEV_ADMIN_USERNAME
+        value: admin
+      - key: DEV_ADMIN_FORCE_CHANGE
+        value: "true"
+      - key: ALLOW_IDENTIFIERS
+        value: "false"
+      - key: ENVIRONMENT
+        value: prod
+      - key: SYNTHETIC_DATA_MODE
+        value: "false"
+      - key: LOG_JSON
+        value: "true"
+
+databases:
+  - name: clozapine-db
+    plan: free
