@@ -36,9 +36,11 @@ A secure, auditable tracker that identifies patients on antipsychotics and flags
 
 ## Quick Start (local dev)
 1. Create `.env` from `.env.example` and set secrets
-2. Start Postgres via Docker Compose
-3. Run the API: `uvicorn backend.main:app --reload`
-4. Run the UI: `streamlit run frontend_streamlit/app.py`
+2. Install backend deps: `pip install -r backend/requirements.txt`
+3. Start Postgres via Docker Compose
+4. Run the API: `uvicorn backend.main:app --reload`
+5. Install UI deps: `pip install -r requirements.txt`
+6. Run the UI: `streamlit run frontend_streamlit/app.py`
 
 ## Directory Layout
 Core code is under `backend/`. Streamlit UI lives in `frontend_streamlit/`.
@@ -48,7 +50,7 @@ Monitoring schedules are defined in `backend/rules/ruleset_v1.json` based on the
 
 ## Notes
 - No patient-identifiable data in logs
-- Field-level encryption for NHS number/MRN
+- Identifiers disabled by default (anonymised mode)
 - Audit trail for all sensitive actions
 
 ## Phase 2 Status
