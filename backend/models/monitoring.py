@@ -12,6 +12,18 @@ class TaskStatus(str, enum.Enum):
     ONGOING = "ONGOING"
 
 
+class AbnormalFlag(str, enum.Enum):
+    NORMAL = "NORMAL"
+    OUTSIDE_WARNING = "OUTSIDE_WARNING"
+    OUTSIDE_CRITICAL = "OUTSIDE_CRITICAL"
+    UNKNOWN = "UNKNOWN"
+
+
+class ReviewStatus(str, enum.Enum):
+    PENDING_REVIEW = "PENDING_REVIEW"
+    REVIEWED = "REVIEWED"
+
+
 class MonitoringEvent(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "monitoring_events"
 
@@ -20,9 +32,20 @@ class MonitoringEvent(Base, UUIDMixin, TimestampMixin):
     test_type = mapped_column(String(64), nullable=False)
     performed_date = mapped_column(Date, nullable=False)
     value = mapped_column(String(128), nullable=True)
+    unit = mapped_column(String(32), nullable=True)
+    interpretation = mapped_column(String(32), nullable=True)
     source_system = mapped_column(String(64), nullable=False)
     source_id = mapped_column(String(64), nullable=True)
     recorded_by = mapped_column(String(64), nullable=True)
+    abnormal_flag = mapped_column(
+        Enum(AbnormalFlag, name="abnormalflag"),
+        default=AbnormalFlag.UNKNOWN,
+        nullable=False,
+    )
+    abnormal_reason_code = mapped_column(String(64), nullable=True)
+    reviewed_status = mapped_column(Enum(ReviewStatus, name="reviewstatus"), nullable=True)
+    reviewed_by = mapped_column(String(64), nullable=True)
+    reviewed_at = mapped_column(DateTime(timezone=True), nullable=True)
 
     patient = relationship("Patient")
     medication = relationship("MedicationOrder")

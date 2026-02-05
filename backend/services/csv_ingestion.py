@@ -8,8 +8,11 @@ from ..config import get_settings
 from ..database import get_sessionmaker
 import logging
 from ..models.medication import MedicationOrder, DrugCategory
-from ..models.monitoring import MonitoringEvent
+from ..models.monitoring import MonitoringEvent, AbnormalFlag
 from ..models.patient import Patient
+from ..models.notifications import NotificationPriority
+from ..services.abnormality import ThresholdEvaluator
+from ..services.notification_engine import NotificationEngine
 from ..services.identifier_detection import (
     IDENTIFIER_PATTERNS,
     banned_columns_found,
@@ -429,11 +432,19 @@ class CSVIngestionService:
         SessionLocal = get_sessionmaker()
         db = SessionLocal()
         task_gen = TaskGenerator(db)
+        evaluator = ThresholdEvaluator(db)
+        notifier = NotificationEngine(db)
 
         inserted = 0
         updated = 0
         skipped = 0
         errors: list[str] = []
+        abnormal_summary = {
+            AbnormalFlag.NORMAL.value: 0,
+            AbnormalFlag.OUTSIDE_WARNING.value: 0,
+            AbnormalFlag.OUTSIDE_CRITICAL.value: 0,
+            AbnormalFlag.UNKNOWN.value: 0,
+        }
 
         patient_col = self._resolve_patient_column(df)
         if not patient_col:
@@ -475,6 +486,12 @@ class CSVIngestionService:
                     if existing:
                         if value is not None:
                             existing.value = value
+                        unit = _clean_value(row.get("unit"))
+                        if unit is not None:
+                            existing.unit = unit
+                        interpretation = _clean_value(row.get("interpretation"))
+                        if interpretation is not None:
+                            existing.interpretation = interpretation
                         updated += 1
                         event = existing
                     else:
@@ -483,11 +500,32 @@ class CSVIngestionService:
                             test_type=test_type,
                             performed_date=performed_date,
                             value=value,
+                            unit=_clean_value(row.get("unit")),
+                            interpretation=_clean_value(row.get("interpretation")),
                             source_system="CSV_UPLOAD",
                         )
                         db.add(event)
                         db.flush()
                         inserted += 1
+
+                        evaluation = evaluator.evaluate_event(event, patient)
+                        evaluator.apply_evaluation(event, evaluation)
+                        abnormal_summary[evaluation.flag.value] += 1
+
+                        if evaluation.flag == AbnormalFlag.OUTSIDE_CRITICAL:
+                            notifier.notify_abnormal_event(
+                                event,
+                                patient,
+                                priority=NotificationPriority.CRITICAL,
+                                reason=evaluation.reason,
+                            )
+                        elif evaluation.flag == AbnormalFlag.OUTSIDE_WARNING:
+                            notifier.notify_abnormal_event(
+                                event,
+                                patient,
+                                priority=NotificationPriority.WARNING,
+                                reason=evaluation.reason,
+                            )
 
                     task_gen.auto_complete_tasks_for_event(event, actor="SYSTEM")
 
@@ -510,6 +548,7 @@ class CSVIngestionService:
             "updated": updated,
             "skipped": skipped,
             "errors": errors[:10],
+            "abnormal_summary": abnormal_summary,
         }
 
 

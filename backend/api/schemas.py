@@ -48,6 +48,8 @@ class MonitoringEventPayload(StrictModel):
     test_type: str
     performed_date: date
     value: Optional[str] = None
+    unit: Optional[str] = None
+    interpretation: Optional[str] = None
 
 
 class WebhookMedicationRequest(StrictModel):
@@ -87,3 +89,19 @@ class RuleSetUploadRequest(StrictModel):
     version: str
     effective_from: date
     rules_json: dict
+
+
+class ThresholdPayload(StrictModel):
+    monitoring_type: str
+    unit: str
+    comparator_type: str  # numeric | coded
+    sex: Optional[str] = None
+    age_band: Optional[str] = None
+    source_system_scope: Optional[str] = None
+    low_critical: Optional[float] = None
+    low_warning: Optional[float] = None
+    high_warning: Optional[float] = None
+    high_critical: Optional[float] = None
+    coded_abnormal_values: Optional[list[str]] = None
+    enabled: Optional[bool] = True
+    version: Optional[str] = None

@@ -107,6 +107,10 @@ def patient_monitoring_timeline(
                 "id": str(event.id),
                 "test_type": event.test_type,
                 "performed_date": event.performed_date.isoformat(),
+                "value": event.value,
+                "unit": event.unit,
+                "abnormal_flag": event.abnormal_flag.value if event.abnormal_flag else None,
+                "reviewed_status": event.reviewed_status.value if event.reviewed_status else None,
                 "source_system": event.source_system,
             }
             for event in events

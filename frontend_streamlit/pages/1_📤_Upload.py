@@ -67,6 +67,10 @@ if st.button("Run Upload"):
             if result.get("import_summary"):
                 st.subheader("Import Summary")
                 st.json(result.get("import_summary", {}))
+                events_summary = result.get("import_summary", {}).get("events", {})
+                if events_summary.get("abnormal_summary"):
+                    st.subheader("Abnormal Summary (Events)")
+                    st.json(events_summary.get("abnormal_summary", {}))
             if result.get("errors"):
                 st.subheader("Errors")
                 st.json(result.get("errors", []))

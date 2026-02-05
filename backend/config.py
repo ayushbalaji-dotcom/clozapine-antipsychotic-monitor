@@ -33,11 +33,14 @@ class Settings(BaseSettings):
     RATE_LIMIT_BURST: int = 20
 
     # Notifications
-    NOTIFICATIONS_ENABLED: bool = False
+    IN_APP_NOTIFICATIONS_ENABLED: bool = True
+    NOTIFICATIONS_ENABLED: bool = True
     EMAIL_ENABLED: bool = False
     EMAIL_SMTP_HOST: str = ""
     EMAIL_FROM: str = ""
     TEAMS_WEBHOOK_URL: str = ""
+    TEAM_INBOX_ID: str = "TEAM_INBOX"
+    TEAM_LEAD_INBOX_ID: str = "TEAM_LEAD_INBOX"
 
     # Monitoring
     TASK_WINDOW_DAYS: int = 14

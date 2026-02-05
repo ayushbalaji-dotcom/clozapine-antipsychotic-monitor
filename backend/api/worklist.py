@@ -6,6 +6,7 @@ from ..database import get_db
 from ..models.monitoring import MonitoringTask, TaskStatus
 from ..models.medication import MedicationOrder
 from ..models.patient import Patient
+from ..models.notifications import InAppNotification, NotificationPriority, InAppNotificationStatus
 
 router = APIRouter(tags=["worklist"])
 
@@ -14,6 +15,7 @@ router = APIRouter(tags=["worklist"])
 def get_worklist(
     status: TaskStatus | None = None,
     drug_category: str | None = None,
+    has_urgent_alerts: bool | None = None,
     db: Session = Depends(get_db),
     current_user=Depends(require_role("clinician")),
 ):
@@ -23,15 +25,31 @@ def get_worklist(
         .join(Patient, MonitoringTask.patient_id == Patient.id)
     )
 
+    urgent_patient_ids = {
+        row[0]
+        for row in db.query(InAppNotification.patient_id)
+        .filter(
+            InAppNotification.priority == NotificationPriority.CRITICAL,
+            InAppNotification.status != InAppNotificationStatus.ACKED,
+        )
+        .all()
+        if row[0] is not None
+    }
+
     if status:
         query = query.filter(MonitoringTask.status == status)
     if drug_category:
         query = query.filter(MedicationOrder.drug_category == drug_category)
+    if has_urgent_alerts:
+        if not urgent_patient_ids:
+            return {"count": 0, "items": []}
+        query = query.filter(MonitoringTask.patient_id.in_(urgent_patient_ids))
 
     tasks = query.order_by(MonitoringTask.due_date.asc()).all()
 
     results = []
     for task, med, patient in tasks:
+        has_urgent = patient.id in urgent_patient_ids if urgent_patient_ids else False
         results.append(
             {
                 "task_id": str(task.id),
@@ -44,6 +62,7 @@ def get_worklist(
                 "due_date": task.due_date.isoformat(),
                 "assigned_to": task.assigned_to,
                 "status": task.status.value,
+                "has_urgent_alerts": has_urgent,
             }
         )
 

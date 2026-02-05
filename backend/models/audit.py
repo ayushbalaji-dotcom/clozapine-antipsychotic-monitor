@@ -9,13 +9,16 @@ class AuditAction(str, enum.Enum):
     UPDATE = "UPDATE"
     ACKNOWLEDGE = "ACKNOWLEDGE"
     WAIVE = "WAIVE"
+    NOTIFICATION_CREATED = "NOTIFICATION_CREATED"
+    NOTIFICATION_VIEWED = "NOTIFICATION_VIEWED"
+    NOTIFICATION_ACKED = "NOTIFICATION_ACKED"
 
 
 class AuditEvent(Base, UUIDMixin):
     __tablename__ = "audit_events"
 
     actor = mapped_column(String(64), nullable=False)
-    action = mapped_column(Enum(AuditAction), nullable=False)
+    action = mapped_column(Enum(AuditAction, name="auditaction"), nullable=False)
     entity_type = mapped_column(String(64), nullable=False)
     entity_id = mapped_column(String(64), nullable=False)
     request_id = mapped_column(String(64), nullable=False)

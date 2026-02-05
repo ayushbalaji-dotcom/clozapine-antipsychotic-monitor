@@ -5,12 +5,15 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..models.medication import MedicationOrder, DrugCategory
-from ..models.monitoring import MonitoringEvent
+from ..models.monitoring import MonitoringEvent, AbnormalFlag
 from ..models.patient import Patient
 from ..services.webhook_security import WebhookSecurity
 from ..services.scheduling import SchedulingEngine
 from ..services.task_generator import TaskGenerator
 from ..services.audit_logger import create_audit_event
+from ..services.abnormality import ThresholdEvaluator
+from ..services.notification_engine import NotificationEngine
+from ..models.notifications import NotificationPriority
 from ..config import get_settings
 from ..models.audit import AuditAction
 from .schemas import WebhookMedicationRequest, WebhookMonitoringEventRequest
@@ -129,10 +132,31 @@ async def ingest_monitoring_event(request: Request, db: Session = Depends(get_db
         test_type=payload.event.test_type,
         performed_date=payload.event.performed_date,
         value=payload.event.value,
+        unit=payload.event.unit,
+        interpretation=payload.event.interpretation,
         source_system=payload.source_system,
         source_id=payload.source_id,
     )
     db.add(event)
+
+    evaluator = ThresholdEvaluator(db)
+    evaluation = evaluator.evaluate_event(event, patient)
+    evaluator.apply_evaluation(event, evaluation)
+    if evaluation.flag == AbnormalFlag.OUTSIDE_CRITICAL:
+        NotificationEngine(db).notify_abnormal_event(
+            event,
+            patient,
+            priority=NotificationPriority.CRITICAL,
+            reason=evaluation.reason,
+        )
+    elif evaluation.flag == AbnormalFlag.OUTSIDE_WARNING:
+        NotificationEngine(db).notify_abnormal_event(
+            event,
+            patient,
+            priority=NotificationPriority.WARNING,
+            reason=evaluation.reason,
+        )
+
     db.commit()
 
     create_audit_event(

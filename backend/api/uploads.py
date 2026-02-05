@@ -115,10 +115,10 @@ PAT-000002,clozapine,2025-01-10,,100mg,PO,false
 PAT-000003,haloperidol,2024-12-01,2025-02-01,5mg,PO,true
 """
 
-    events_csv = """pseudonymous_number,test_type,performed_date,value
-PAT-000001,Weight/BMI,2025-01-15,75kg / 24.5
-PAT-000001,HbA1c,2025-01-20,5.8%
-PAT-000002,FBC,2025-01-12,Normal
+    events_csv = """pseudonymous_number,test_type,performed_date,value,unit,interpretation
+PAT-000001,Weight/BMI,2025-01-15,75,kg,
+PAT-000001,HbA1c,2025-01-20,5.8,%,ABNORMAL
+PAT-000002,FBC,2025-01-12,Normal,,
 """
 
     vocab_md = """# Controlled Vocabulary
