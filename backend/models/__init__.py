@@ -11,6 +11,7 @@ from .notifications import (
     InAppNotificationStatus,
 )
 from .thresholds import ReferenceThreshold, ComparatorType
+from .integration import TrackedPatient
 from .user import User
 from .ruleset import RuleSetVersion
 from .config import SystemConfig
@@ -35,6 +36,7 @@ __all__ = [
     "InAppNotificationStatus",
     "ReferenceThreshold",
     "ComparatorType",
+    "TrackedPatient",
     "User",
     "RuleSetVersion",
     "SystemConfig",

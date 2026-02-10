@@ -111,6 +111,7 @@ def patient_monitoring_timeline(
                 "unit": event.unit,
                 "abnormal_flag": event.abnormal_flag.value if event.abnormal_flag else None,
                 "reviewed_status": event.reviewed_status.value if event.reviewed_status else None,
+                "attachment_url": event.attachment_url,
                 "source_system": event.source_system,
             }
             for event in events

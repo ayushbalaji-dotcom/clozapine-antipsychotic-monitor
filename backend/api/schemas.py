@@ -50,6 +50,7 @@ class MonitoringEventPayload(StrictModel):
     value: Optional[str] = None
     unit: Optional[str] = None
     interpretation: Optional[str] = None
+    attachment_url: Optional[str] = None
 
 
 class WebhookMedicationRequest(StrictModel):
@@ -105,3 +106,12 @@ class ThresholdPayload(StrictModel):
     coded_abnormal_values: Optional[list[str]] = None
     enabled: Optional[bool] = True
     version: Optional[str] = None
+
+
+class IntegrationFetchRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    # NHS number is accepted only for user-initiated EPR fetch and never stored.
+    nhs_number: str
+    requested_by: Optional[str] = None
+    source_system: Optional[str] = None

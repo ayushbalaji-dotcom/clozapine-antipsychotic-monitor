@@ -13,6 +13,7 @@ from .api.admin import router as admin_router
 from .api.audit import router as audit_router
 from .api.uploads import router as uploads_router
 from .api.notifications import router as notifications_router
+from .api.integration import router as integration_router
 
 
 def create_app() -> FastAPI:
@@ -51,6 +52,7 @@ def create_app() -> FastAPI:
     app.include_router(audit_router, prefix="/api/v1")
     app.include_router(uploads_router, prefix="/api/v1")
     app.include_router(notifications_router, prefix="/api/v1")
+    app.include_router(integration_router, prefix="/api/v1")
 
     return app
 

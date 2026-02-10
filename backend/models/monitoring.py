@@ -34,6 +34,7 @@ class MonitoringEvent(Base, UUIDMixin, TimestampMixin):
     value = mapped_column(String(128), nullable=True)
     unit = mapped_column(String(32), nullable=True)
     interpretation = mapped_column(String(32), nullable=True)
+    attachment_url = mapped_column(String(512), nullable=True)
     source_system = mapped_column(String(64), nullable=False)
     source_id = mapped_column(String(64), nullable=True)
     recorded_by = mapped_column(String(64), nullable=True)

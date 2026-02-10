@@ -492,6 +492,9 @@ class CSVIngestionService:
                         interpretation = _clean_value(row.get("interpretation"))
                         if interpretation is not None:
                             existing.interpretation = interpretation
+                        attachment_url = _clean_value(row.get("attachment_url"))
+                        if attachment_url is not None:
+                            existing.attachment_url = attachment_url
                         updated += 1
                         event = existing
                     else:
@@ -502,6 +505,7 @@ class CSVIngestionService:
                             value=value,
                             unit=_clean_value(row.get("unit")),
                             interpretation=_clean_value(row.get("interpretation")),
+                            attachment_url=_clean_value(row.get("attachment_url")),
                             source_system="CSV_UPLOAD",
                         )
                         db.add(event)

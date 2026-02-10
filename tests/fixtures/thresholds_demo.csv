@@ -1,0 +1,4 @@
+monitoring_type,unit,comparator_type,sex,age_band,source_system_scope,low_critical,low_warning,high_warning,high_critical,coded_abnormal_values,enabled,version
+HbA1c,%,numeric,,,,5.0,5.7,6.5,7.5,,true,v1
+Weight/BMI,kg,numeric,,,,40,45,120,130,,true,v1
+ECG,ms,coded,,,,,,,"ABNORMAL;CRITICAL",true,v1

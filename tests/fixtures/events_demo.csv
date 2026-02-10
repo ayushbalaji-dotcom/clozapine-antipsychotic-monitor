@@ -1,0 +1,5 @@
+pseudonymous_number,test_type,performed_date,value,unit,interpretation
+PAT-000101,HbA1c,2026-02-01,9.2,%,ABNORMAL
+PAT-000101,ECG,2026-02-01,,ms,CRITICAL
+PAT-000102,Weight/BMI,2026-02-01,85,kg,
+PAT-000103,FBC,2026-02-01,Normal,,

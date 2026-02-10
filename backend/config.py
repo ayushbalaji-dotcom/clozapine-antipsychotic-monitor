@@ -32,6 +32,16 @@ class Settings(BaseSettings):
     RATE_LIMIT_MAX_PER_HOUR: int = 100
     RATE_LIMIT_BURST: int = 20
 
+    # Integration API key (EPR -> monitoring tool)
+    INTEGRATION_API_KEY_HASH: str = ""
+
+    # EPR integration (monitoring tool -> EPR)
+    EPR_MODE: str = "OFF"  # OFF|FHIR_ISH|STUB
+    EPR_BASE_URL: str = ""
+    EPR_API_KEY: str = ""
+    EPR_TIMEOUT_SECONDS: int = 20
+    EPR_HASH_SALT: str = ""
+
     # Notifications
     IN_APP_NOTIFICATIONS_ENABLED: bool = True
     NOTIFICATIONS_ENABLED: bool = True

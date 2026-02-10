@@ -120,6 +120,7 @@ class NotificationEngine:
                 "performed_date": event.performed_date.isoformat(),
                 "value": event.value,
                 "unit": event.unit,
+                "attachment_url": event.attachment_url,
                 "reason": reason,
             },
         )

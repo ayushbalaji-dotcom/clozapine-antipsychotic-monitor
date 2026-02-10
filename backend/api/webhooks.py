@@ -134,6 +134,7 @@ async def ingest_monitoring_event(request: Request, db: Session = Depends(get_db
         value=payload.event.value,
         unit=payload.event.unit,
         interpretation=payload.event.interpretation,
+        attachment_url=payload.event.attachment_url,
         source_system=payload.source_system,
         source_id=payload.source_id,
     )
